@@ -2,18 +2,13 @@ fun main() {
     fun part1(input: List<String>): Int {
         val split = input.indexOfFirst { it.isBlank() }
 
-        val fresh=mutableListOf<LongRange>()
-        for (line in input.take(split)){
-            val (min,max)=line.split("-")
-            fresh.add(min.toLong().rangeTo(max.toLong()))
+        val freshRanges=input.take(split).map {
+            line->
+                val (min,max)=line.split("-")
+                min.toLong()..max.toLong()
         }
 
-        val ingrediants=mutableListOf<Long>()
-        for (line in input.drop(split + 1)){
-            ingrediants.add(line.toLong())
-        }
-
-        return ingrediants.count { ingrediant -> fresh.any { range->ingrediant in range } }
+        return input.drop(split + 1).count { ingrediant -> freshRanges.any { range->ingrediant.toLong() in range } }
     }
 
     fun part2(input: List<String>): Int =0
